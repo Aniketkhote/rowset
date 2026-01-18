@@ -1,7 +1,10 @@
+import { TanStackDevtools } from '@tanstack/react-devtools'
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
 
+import { DefaultCatchBoundary } from '@/components/error/DefaultCatchBoundary'
+import { NotFound } from '@/components/error/NotFound'
+import { ThemeProvider } from '@/components/layout/theme-provider'
 import appCss from '../styles.css?url'
 
 export const Route = createRootRoute({
@@ -15,7 +18,8 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'Rowset',
+        description: 'Rowset - Modern DB Client',
       },
     ],
     links: [
@@ -27,6 +31,8 @@ export const Route = createRootRoute({
   }),
 
   shellComponent: RootDocument,
+  notFoundComponent: () => <NotFound />,
+  errorComponent: DefaultCatchBoundary,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
@@ -36,7 +42,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
         <TanStackDevtools
           config={{
             position: 'bottom-right',
